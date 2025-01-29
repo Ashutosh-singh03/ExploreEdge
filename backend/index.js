@@ -1,6 +1,10 @@
 const express=require("express");
 const mongoose=require("mongoose");
 const dotenv=require("dotenv");
+const userRoute=require("./routes/userRoute.js");
+const hotelRoute=require("./routes/hotelRoute.js");
+const roomRoute=require("./routes/roomRoute.js");
+const authRoute=require("./routes/authRoute.js");
 dotenv.config();
 const app=express();
 
@@ -14,10 +18,11 @@ const connect = async () => {
         console.error("MongoDB connection error:", error.message);
     }
 };
-console.log(process.env.MONGO_URI)
-app.get("/",(req,res)=>{
-    res.send("hello");
-})
+
+app.use("/api/auth",authRoute);
+app.use("/api/user",userRoute);
+app.use("/api/hotel",hotelRoute);
+app.use("/api/room",roomRoute);
 
 app.listen(8800,()=>{
     connect();
